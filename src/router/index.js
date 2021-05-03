@@ -1,25 +1,63 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import Home from '../views/Home.vue'
+import Login from '../components/Login.vue'
+import Home from '../components/Home.vue'
+import Index from '../components/Index.vue'
+import Users from '../components/auth/Users.vue'
+import Roles from '../components/auth/Roles.vue'
+import Menus from '../components/auth/Menus.vue'
+import Forbid from '../components/exception/Forbid.vue'
 
 const routes = [
   {
-    path: '/',
-    name: 'Home',
-    component: Home
+    path:'/',redirect:'/login'
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
+    path: '/login',
+    name: 'Login',
+    component: Login
+  },
+  {
+    path: '/home',
+    name: 'Home',
+    component: Home,
+    redirect: '/index',
+    children : [
+      {
+        path: '/index',
+        name: 'Index',
+        component: Index
+      },
+      {
+        path: '/users',
+        name: 'Users',
+        component: Users
+      },
+      {
+        path: '/roles',
+        name: 'Roles',
+        component: Roles
+      },
+      {
+        path: '/menus',
+        name: 'Menus',
+        component: Menus
+      },
+      {
+        path: '/forbid',
+        name: 'Forbid',
+        component: Forbid
+      }
+    ]
+  },
+
 ]
 
 const router = createRouter({
   history: createWebHashHistory(),
   routes
 })
+router.beforeEach((to, from, next) =>{
+  return next();
 
+});
 export default router
